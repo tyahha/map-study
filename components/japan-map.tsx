@@ -12,7 +12,7 @@ export const JapanMap = ({onClick}: {
       onClick(id)
     }
 
-  }, [])
+  }, [onClick])
 
   const fillColor = "#64ab5b"
   const oceanColor = "#8ea7e6"

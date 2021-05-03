@@ -6,3 +6,55 @@
     fill: #1dff00;
   }
 }
+
+.game-window {
+  background-color: #8ea7e6;
+}
+
+.prefecture-question {
+  position: absolute;
+  top: calc(50% - 1rem - 50px);
+  left: calc(50% - 5rem);
+}
+
+.correct-or-incorrect {
+  font-size: 26px;
+  position: absolute;
+  top: calc(50% - 4rem - 50px);
+  left: calc(50% - 5rem);
+
+  &.correct {
+    color: blue;
+  }
+
+  &.incorrect {
+    color: red;
+  }
+}
+
+.map-container {
+  text-align: center;
+  position: relative;
+}
+
+@media (orientation: landscape){
+  // デバイスが横向きの場合の記述
+  .map-container {
+    height: 100vh;
+
+    svg {
+      height: 100%;
+    }
+  }
+}
+
+@media (orientation: portrait){
+  // デバイスが縦向きの場合の記述
+  .map-container {
+    width: 100vw;
+
+    svg {
+      width: 100%;
+    }
+  }
+}
