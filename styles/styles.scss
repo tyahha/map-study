@@ -37,28 +37,39 @@
   left: 0;
   top: 0;
 
-  .title {
-    font-size: 32px;
+  font-size: 64px;
+
+  .result-point {
+    font-size: 96px;
   }
 }
 
 .prefecture-question {
   position: absolute;
-  top: calc(50% - 1rem - 50px);
-  left: calc(50% - 5rem);
+  top: 30%;
+  left: 30%;
+  font-size: 48px;
 }
 
 .point {
   position: absolute;
-  top: 8px;
+  font-size: 48px;
+  top: 64px;
+  left: 100px;
+}
+
+.timer {
+  position: absolute;
+  top: 4px;
   left: 8px;
+  font-size: 48px;
 }
 
 .correct-or-incorrect {
-  font-size: 26px;
+  font-size: 48px;
   position: absolute;
-  top: calc(50% - 4rem - 50px);
-  left: calc(50% - 5rem);
+  top: calc(50% - 100px);
+  left: calc(50% - 200px);
 
   &.correct {
     color: blue;
