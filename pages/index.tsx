@@ -85,7 +85,7 @@ export default function Index() {
         </FadeOut>
         {gaming && !end &&
         <>
-          <CountDownTimer time={6 * 1000} timeUp={() => {
+          <CountDownTimer time={30 * 1000} timeUp={() => {
             setEnd(true)
           }} />
           <p className={"point"}>{`点数：${point} 点`}</p>
