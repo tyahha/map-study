@@ -4,6 +4,7 @@ import {japanMap, JapanPrefectureId} from "../data/japan-map"
 import {getPrefectureQuestions} from "../logic/logic"
 import {FadeOut} from "../components/fade-out"
 import classNames from "classnames"
+import {playCorrectOrInCorrectSound} from "../data/se"
 
 export default function Index() {
 
@@ -23,6 +24,7 @@ export default function Index() {
   const prefecture = japanMap.get(question)
 
   const click = useCallback((id: JapanPrefectureId) => {
+    playCorrectOrInCorrectSound(id === question)
     setAnswer(id)
     setPrevQuestion(question)
     setCurrentQuestion(getNextQuestion())
