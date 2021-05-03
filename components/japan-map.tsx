@@ -1,9 +1,9 @@
-import { MouseEventHandler, useCallback } from "react";
+import { MouseEventHandler, useCallback } from "react"
 
 export const JapanMap = () => {
   const click: MouseEventHandler<SVGPathElement> = useCallback((e) => {
-    console.log("click", e);
-  }, []);
+    console.log("click", e)
+  }, [])
 
   return (
     <svg viewBox="0 0 1523 1523">
@@ -1692,5 +1692,5 @@ export const JapanMap = () => {
        140.90,1501.26 143.89,1500.43 147.00,1499.92 Z"
       />
     </svg>
-  );
-};
+  )
+}
