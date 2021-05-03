@@ -65,9 +65,12 @@ export default function Index() {
             <p className={"title"}>今回の得点</p>
             <p className={"result-point"}>{`${point} 点`}</p>
             <button onClick={() => {
+              setAnswer(undefined)
               setGaming(true)
               setEnd(false)
               setPoint(0)
+              questions.current = getPrefectureQuestions()
+              setCurrentQuestion(getNextQuestion())
             }}>もう１回遊ぶ
             </button>
           </div>
@@ -82,7 +85,7 @@ export default function Index() {
         </FadeOut>
         {gaming && !end &&
         <>
-          <CountDownTimer time={30 * 1000} timeUp={() => {
+          <CountDownTimer time={6 * 1000} timeUp={() => {
             setEnd(true)
           }} />
           <p className={"point"}>{`点数：${point} 点`}</p>
