@@ -8,6 +8,9 @@ import {playCorrectOrInCorrectSound} from "../data/se"
 
 export default function Index() {
 
+  const [gaming, setGaming] = useState(false)
+  const [point, setPoint] = useState(0)
+
   const questions = useRef<JapanPrefectureId[]>(getPrefectureQuestions())
   const getNextQuestion = (): JapanPrefectureId => {
     if (questions.current.length <= 0) {
@@ -25,6 +28,11 @@ export default function Index() {
 
   const click = useCallback((id: JapanPrefectureId) => {
     playCorrectOrInCorrectSound(id === question)
+
+    setPoint((p) => {
+      return p + (id === question ? 100 : -50)
+    })
+
     setAnswer(id)
     setPrevQuestion(question)
     setCurrentQuestion(getNextQuestion())
@@ -36,6 +44,17 @@ export default function Index() {
 
   return (
     <div className={"game-window"}>
+      {!gaming && (
+        <>
+        <div className={"overlay"} />
+          <div className={"overlay-content"}>
+            <p className={"title"}>都道府県当てゲーム</p>
+            <button onClick={() => {
+              setGaming(true)
+            }}>開始</button>
+          </div>
+        </>
+      )}
       <div className={"map-container"}>
         <FadeOut time={500} show={!!answer}>
           <p className={classNames("correct-or-incorrect", {
@@ -43,7 +62,12 @@ export default function Index() {
             incorrect: prevQuestion !== answer,
           })}>{prevQuestion === answer ? "○正解" : "×不正解"}</p>
         </FadeOut>
+        {gaming &&
+        <>
+          <p className={"point"}>{`点数：${point} 点`}</p>
         <p className={"prefecture-question"}>{prefecture.name}</p>
+        </>
+        }
         <JapanMap onClick={click}/>
       </div>
     </div>
