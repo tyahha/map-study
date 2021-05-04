@@ -1,27 +1,13 @@
-import { MouseEventHandler, useCallback } from "react"
-import {JapanPrefectureId} from "../data/japan-map"
+import { areaFillColor, MapProps, oceanColor, useAreaClick } from "../logic/logic"
 
-export const JapanMap = ({onClick}: {
-  onClick?: (id: JapanPrefectureId) => void
-}) => {
-  const click: MouseEventHandler<SVGPathElement> = useCallback((e) => {
-    // @ts-ignore
-    const id: JapanPrefectureId | undefined = e.target.id
-
-    if (id && onClick) {
-      onClick(id)
-    }
-
-  }, [onClick])
-
-  const fillColor = "#64ab5b"
-  const oceanColor = "#8ea7e6"
+export const JapanMap = ({ onClick }: MapProps) => {
+  const click = useAreaClick(onClick)
 
   return (
     <svg viewBox="0 0 1523 1523">
       <path
         id="hokkaido"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -215,7 +201,7 @@ export const JapanMap = ({onClick}: {
       />
       <path
         id="aomori"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -269,15 +255,16 @@ export const JapanMap = ({onClick}: {
        995.14,469.77 993.90,469.13 991.17,469.62
        986.54,470.44 981.67,472.85 977.00,472.00
        977.00,472.00 985.00,437.00 985.00,437.00 Z
-      "/>
+      "
+      />
       <path
         id="akita"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
         className="map"
-      d="
+        d="
      M 904.00,591.00
      C 909.88,593.47 909.50,593.67 916.00,586.00
        921.28,579.76 926.49,567.21 926.05,559.00
@@ -315,10 +302,11 @@ export const JapanMap = ({onClick}: {
        927.63,608.19 920.56,599.71 918.00,596.00
        913.76,599.52 910.44,600.54 905.00,601.00
        905.00,601.00 904.00,591.00 904.00,591.00 Z
-      "/>
+      "
+      />
       <path
         id="iwate"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -361,10 +349,11 @@ export const JapanMap = ({onClick}: {
        990.29,568.42 992.93,565.79 995.00,563.03
        996.95,563.33 997.94,563.72 999.96,563.03
        1003.29,561.97 1015.70,551.88 1018.00,549.00 Z
-      "/>
+      "
+      />
       <path
         id="yamagata"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -395,10 +384,11 @@ export const JapanMap = ({onClick}: {
        904.93,731.46 899.73,730.24 896.00,729.00
        896.00,729.00 914.42,693.00 914.42,693.00
        914.42,693.00 915.00,679.00 915.00,679.00 Z
-      "/>
+      "
+      />
       <path
         id="miyagi"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -444,10 +434,11 @@ export const JapanMap = ({onClick}: {
        1011.14,700.56 1014.39,707.00 1020.00,705.59
        1022.34,705.00 1024.30,702.37 1027.00,701.99
        1029.34,701.65 1033.72,704.02 1036.00,705.00 Z
-      "/>
+      "
+      />
       <path
         id="niigata"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -506,10 +497,11 @@ export const JapanMap = ({onClick}: {
        811.89,796.98 803.93,801.74 794.00,803.00
        794.00,803.00 800.09,788.14 800.09,788.14
        800.09,788.14 794.00,784.00 794.00,784.00 Z
-      "/>
+      "
+      />
       <path
         id="fukusima"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -553,10 +545,11 @@ export const JapanMap = ({onClick}: {
        935.22,806.03 934.32,808.45 939.00,808.95
        943.27,809.40 950.24,806.41 951.76,802.00
        952.24,799.56 950.13,797.42 951.76,787.00 Z
-      "/>
+      "
+      />
       <path
         id="ishikawa"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -595,10 +588,11 @@ export const JapanMap = ({onClick}: {
        677.00,869.00 673.00,869.00 673.00,869.00
        673.28,863.93 677.14,850.94 681.21,847.89
        684.85,845.15 687.12,846.46 692.00,842.00 Z
-      "/>
+      "
+      />
       <path
         id="tochigi"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -625,10 +619,11 @@ export const JapanMap = ({onClick}: {
        881.02,911.54 880.62,904.41 887.00,901.00
        887.00,901.00 887.00,898.00 887.00,898.00
        887.00,898.00 883.00,894.00 883.00,894.00 Z
-      "/>
+      "
+      />
       <path
         id="nagano"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -678,10 +673,11 @@ export const JapanMap = ({onClick}: {
        757.89,925.25 758.92,924.43 759.57,921.96
        760.44,918.73 759.48,914.15 761.13,909.00
        761.13,909.00 769.00,895.00 769.00,895.00 Z
-      "/>
+      "
+      />
       <path
         id="gunma"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -713,10 +709,11 @@ export const JapanMap = ({onClick}: {
        841.08,907.41 849.35,903.33 850.98,900.73
        851.81,899.40 851.76,898.43 852.00,897.00
        856.64,894.51 856.60,892.96 856.00,888.00 Z
-      "/>
+      "
+      />
       <path
         id="fukui"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -742,10 +739,11 @@ export const JapanMap = ({onClick}: {
        685.24,911.00 688.01,904.00 688.01,904.00
        690.44,896.44 687.89,892.95 698.00,892.00
        698.00,892.00 695.00,897.00 695.00,897.00 Z
-      "/>
+      "
+      />
       <path
         id="ibaraki"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -781,10 +779,11 @@ export const JapanMap = ({onClick}: {
        952.15,907.00 952.15,890.00 952.15,890.00
        957.83,892.63 964.63,899.81 968.00,899.68
        972.21,899.52 977.69,891.25 980.00,888.00 Z
-      "/>
+      "
+      />
       <path
         id="gifu"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -824,10 +823,11 @@ export const JapanMap = ({onClick}: {
        682.94,956.06 681.05,953.63 680.00,952.00
        686.98,946.37 690.56,943.49 694.00,954.00
        694.00,954.00 709.00,938.00 709.00,938.00 Z
-      "/>
+      "
+      />
       <path
         id="toyama"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -865,10 +865,11 @@ export const JapanMap = ({onClick}: {
        623.58,997.72 616.63,990.00 615.00,980.00
        615.00,980.00 628.27,961.00 628.27,961.00
        628.27,961.00 629.00,955.06 629.00,955.06 Z
-      "/>
+      "
+      />
       <path
         id="saitama"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -896,10 +897,11 @@ export const JapanMap = ({onClick}: {
        907.00,998.93 899.00,1001.00 899.00,1001.00
        899.00,1001.00 899.00,996.00 899.00,996.00
        899.00,996.00 887.00,1002.00 887.00,1002.00 Z
-      "/>
+      "
+      />
       <path
         id="chiba"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -934,10 +936,11 @@ export const JapanMap = ({onClick}: {
        924.87,1007.81 930.33,1004.28 922.00,1000.00
        922.00,1000.00 925.89,990.00 925.89,990.00
        925.89,990.00 923.00,980.00 923.00,980.00 Z
-      "/>
+      "
+      />
       <path
         id="yamanashi"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -961,10 +964,11 @@ export const JapanMap = ({onClick}: {
        812.43,1050.22 815.52,1050.55 814.00,1058.00
        805.44,1053.47 810.66,1047.47 799.00,1044.00
        801.05,1028.46 798.83,1024.72 795.00,1010.00 Z
-      "/>
+      "
+      />
       <path
         id="tokyo"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -986,10 +990,11 @@ export const JapanMap = ({onClick}: {
        915.00,1012.00 917.00,1019.00 917.00,1019.00
        908.02,1021.33 905.29,1015.14 898.00,1013.69
        891.71,1012.44 891.34,1017.44 892.00,1022.00 Z
-      "/>
+      "
+      />
       <path
         id="kyoto"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1020,10 +1025,11 @@ export const JapanMap = ({onClick}: {
        552.59,1057.52 553.52,1053.93 550.69,1051.36
        547.58,1048.52 545.13,1050.80 542.00,1050.24
        534.60,1048.90 533.79,1044.21 534.00,1038.00 Z
-      "/>
+      "
+      />
       <path
         id="hyogo"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1070,10 +1076,11 @@ export const JapanMap = ({onClick}: {
        528.06,1149.84 516.65,1153.23 513.00,1154.00
        513.00,1154.00 512.00,1147.00 512.00,1147.00
        512.00,1147.00 509.00,1148.00 509.00,1148.00 Z
-      "/>
+      "
+      />
       <path
         id="shimane"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1116,10 +1123,11 @@ export const JapanMap = ({onClick}: {
        319.99,1062.55 332.00,1050.13 332.00,1050.13
        338.31,1044.61 351.13,1043.15 352.46,1033.00
        352.72,1031.06 351.43,1027.24 351.00,1025.18 Z
-      "/>
+      "
+      />
       <path
         id="kanagawa"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1144,10 +1152,11 @@ export const JapanMap = ({onClick}: {
        859.02,1056.90 857.86,1037.00 857.86,1037.00
        857.86,1037.00 862.53,1027.00 862.53,1027.00
        862.53,1027.00 865.00,1014.00 865.00,1014.00 Z
-      "/>
+      "
+      />
       <path
         id="shiga"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1173,10 +1182,11 @@ export const JapanMap = ({onClick}: {
        613.95,1031.33 616.03,1031.83 618.00,1031.52
        621.79,1030.93 630.04,1024.21 631.84,1020.87
        632.90,1018.90 632.87,1017.14 633.00,1015.00 Z
-      "/>
+      "
+      />
       <path
         id="tottori"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1209,10 +1219,11 @@ export const JapanMap = ({onClick}: {
        454.00,1023.87 471.00,1023.87 471.00,1023.87
        471.00,1023.87 479.00,1021.00 479.00,1021.00
        479.00,1021.00 482.00,1017.00 482.00,1017.00 Z
-      "/>
+      "
+      />
       <path
         id="shizuoka"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1254,7 +1265,8 @@ export const JapanMap = ({onClick}: {
        768.00,1110.00 746.00,1110.00 746.00,1110.00
        746.00,1110.00 748.00,1098.00 748.00,1098.00
        748.00,1098.00 737.00,1101.00 737.00,1101.00 Z
-      "/>
+      "
+      />
       <path
         id="biwako"
         fill={oceanColor}
@@ -1273,10 +1285,11 @@ export const JapanMap = ({onClick}: {
        616.48,1052.76 613.16,1054.94 611.28,1058.09
        609.72,1060.69 608.96,1064.96 607.92,1068.00
        606.00,1073.65 603.48,1076.61 610.00,1080.00 Z
-      "/>
+      "
+      />
       <path
         id="aichi"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1308,10 +1321,11 @@ export const JapanMap = ({onClick}: {
        682.93,1082.15 685.12,1077.01 690.00,1071.00
        684.31,1071.92 681.78,1074.82 679.04,1075.00
        674.96,1075.27 670.92,1068.05 669.00,1065.00 Z
-      "/>
+      "
+      />
       <path
         id="okayama"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1349,10 +1363,11 @@ export const JapanMap = ({onClick}: {
        403.03,1081.00 404.08,1072.00 404.08,1072.00
        404.08,1072.00 402.00,1065.00 402.00,1065.00
        407.91,1063.92 411.99,1064.46 414.00,1058.00 Z
-      "/>
+      "
+      />
       <path
         id="mie"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1397,10 +1412,11 @@ export const JapanMap = ({onClick}: {
        638.33,1096.01 646.70,1091.58 648.15,1089.70
        649.85,1087.51 654.84,1073.05 654.81,1070.00
        654.81,1070.00 653.00,1059.24 653.00,1059.24 Z
-      "/>
+      "
+      />
       <path
         id="hiroshima"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1434,10 +1450,11 @@ export const JapanMap = ({onClick}: {
        331.77,1084.34 334.10,1089.15 339.28,1088.79
        342.64,1088.56 348.79,1086.27 352.00,1085.00
        352.00,1085.00 348.00,1077.00 348.00,1077.00 Z
-      "/>
+      "
+      />
       <path
         id="osaka"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1459,10 +1476,11 @@ export const JapanMap = ({onClick}: {
        572.84,1090.14 573.39,1086.68 571.98,1084.10
        570.13,1080.74 567.66,1081.04 565.00,1076.00
        565.00,1076.00 566.00,1075.00 566.00,1075.00 Z
-      "/>
+      "
+      />
       <path
         id="yamaguchi"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1507,7 +1525,8 @@ export const JapanMap = ({onClick}: {
      M 307.00,1177.00
      C 305.31,1168.98 310.55,1168.39 313.00,1175.00
        313.00,1175.00 307.00,1177.00 307.00,1177.00 Z
-      "/>
+      "
+      />
       <path
         id="border"
         fill={"black"}
@@ -1521,10 +1540,11 @@ export const JapanMap = ({onClick}: {
        943.00,1236.00 943.00,1476.00 943.00,1476.00
        943.00,1476.00 933.00,1476.00 933.00,1476.00
        933.00,1476.00 933.00,1226.00 933.00,1226.00 Z
-      "/>
+      "
+      />
       <path
         id="nara"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1552,10 +1572,11 @@ export const JapanMap = ({onClick}: {
        589.86,1134.44 591.66,1132.48 591.69,1129.00
        591.72,1125.58 589.63,1122.51 589.75,1118.00
        589.86,1114.02 593.13,1107.60 595.00,1104.00 Z
-      "/>
+      "
+      />
       <path
         id="kagawa"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1581,15 +1602,16 @@ export const JapanMap = ({onClick}: {
        435.29,1160.48 427.11,1169.49 423.32,1167.68
        420.32,1166.25 422.23,1161.48 422.00,1157.00
        422.00,1157.00 425.00,1149.00 425.00,1149.00 Z
-      "/>
-        <path
-          id="wakayama"
-          fill={fillColor}
-          stroke="black"
-          strokeWidth="1"
-          onClick={click}
-          className="map"
-          d="
+      "
+      />
+      <path
+        id="wakayama"
+        fill={areaFillColor}
+        stroke="black"
+        strokeWidth="1"
+        onClick={click}
+        className="map"
+        d="
      M 544.00,1145.00
      C 545.11,1146.14 545.36,1146.88 547.11,1147.39
        550.48,1148.36 562.10,1144.65 566.00,1143.82
@@ -1616,10 +1638,11 @@ export const JapanMap = ({onClick}: {
        545.17,1163.68 546.32,1163.00 551.00,1162.00
        548.41,1153.10 541.42,1153.40 541.00,1145.00
        541.00,1145.00 544.00,1145.00 544.00,1145.00 Z
-      "/>
+      "
+      />
       <path
         id="tokushima"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1644,10 +1667,11 @@ export const JapanMap = ({onClick}: {
        446.30,1162.40 449.63,1165.69 453.00,1164.72
        456.37,1163.75 461.76,1157.25 466.00,1155.75
        469.24,1154.61 483.01,1157.77 488.00,1158.00 Z
-      "/>
+      "
+      />
       <path
         id="ehime"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1683,10 +1707,11 @@ export const JapanMap = ({onClick}: {
        347.93,1190.91 349.21,1173.11 352.90,1168.30
        355.12,1165.40 364.28,1163.02 368.00,1162.00
        368.00,1162.00 365.00,1156.00 365.00,1156.00 Z
-      "/>
+      "
+      />
       <path
         id="fukuoka"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1720,10 +1745,11 @@ export const JapanMap = ({onClick}: {
        161.64,1190.89 161.77,1186.89 162.36,1184.83
        162.36,1184.83 169.58,1170.60 169.58,1170.60
        173.71,1166.68 180.82,1170.97 185.00,1163.00 Z
-      "/>
+      "
+      />
       <path
         id="kochi"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1763,15 +1789,16 @@ export const JapanMap = ({onClick}: {
        346.94,1251.07 345.22,1246.21 353.04,1239.32
        355.35,1237.29 359.32,1235.29 359.62,1231.96
        359.80,1229.92 356.78,1223.75 356.00,1221.00 Z
-      "/>
-        <path
-          id="oita"
-          fill={fillColor}
-          stroke="black"
-          strokeWidth="1"
-          onClick={click}
-          className="map"
-          d="
+      "
+      />
+      <path
+        id="oita"
+        fill={areaFillColor}
+        stroke="black"
+        strokeWidth="1"
+        onClick={click}
+        className="map"
+        d="
      M 224.00,1197.00
      C 226.30,1197.84 240.54,1202.18 242.00,1201.92
        247.50,1200.95 246.87,1192.78 254.00,1193.69
@@ -1805,10 +1832,11 @@ export const JapanMap = ({onClick}: {
        195.92,1216.09 202.52,1209.95 208.00,1207.97
        214.33,1205.68 218.68,1208.66 221.26,1206.31
        222.88,1204.84 223.42,1199.36 224.00,1197.00 Z
-      "/>
+      "
+      />
       <path
         id="saga"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1834,10 +1862,11 @@ export const JapanMap = ({onClick}: {
        116.00,1209.00 110.00,1202.00 110.00,1202.00
        110.00,1202.00 116.00,1204.00 116.00,1204.00
        116.00,1204.00 116.00,1200.00 116.00,1200.00 Z
-      "/>
+      "
+      />
       <path
         id="nagasaki"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1907,10 +1936,11 @@ export const JapanMap = ({onClick}: {
        21.82,1275.84 18.74,1271.87 18.00,1281.00
        18.00,1281.00 12.00,1279.00 12.00,1279.00
        12.00,1279.00 13.00,1265.00 13.00,1265.00 Z
-      "/>
+      "
+      />
       <path
         id="kumamoto"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1956,10 +1986,11 @@ export const JapanMap = ({onClick}: {
        124.00,1318.00 124.00,1315.00 124.00,1315.00
        124.00,1315.00 118.00,1314.00 118.00,1314.00
        118.00,1314.00 123.00,1296.00 123.00,1296.00 Z
-      "/>
+      "
+      />
       <path
         id="miyazaki"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -1992,15 +2023,16 @@ export const JapanMap = ({onClick}: {
        207.42,1385.44 204.46,1386.78 202.08,1383.69
        198.50,1379.02 200.97,1373.41 191.00,1370.00
        193.88,1357.98 187.37,1360.92 177.00,1344.00 Z
-      "/>
-        <path
-          id="okinawa"
-          fill={fillColor}
-          stroke="black"
-          strokeWidth="1"
-          onClick={click}
-          className="map"
-          d="
+      "
+      />
+      <path
+        id="okinawa"
+        fill={areaFillColor}
+        stroke="black"
+        strokeWidth="1"
+        onClick={click}
+        className="map"
+        d="
      M 1117.00,1295.00
      C 1117.81,1299.66 1114.85,1301.31 1111.00,1303.00
        1111.00,1303.00 1117.00,1295.00 1117.00,1295.00 Z
@@ -2058,10 +2090,11 @@ export const JapanMap = ({onClick}: {
      M 1048.00,1401.00
      C 1048.58,1404.27 1047.88,1405.35 1046.00,1408.00
        1046.00,1408.00 1048.00,1401.00 1048.00,1401.00 Z
-      "/>
+      "
+      />
       <path
         id="kagoshima"
-        fill={fillColor}
+        fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
         onClick={click}
@@ -2116,7 +2149,8 @@ export const JapanMap = ({onClick}: {
        161.39,1514.05 152.39,1519.95 148.00,1519.84
        141.24,1519.66 135.71,1510.12 139.18,1504.21
        140.90,1501.26 143.89,1500.43 147.00,1499.92 Z
-      "/>
+      "
+      />
     </svg>
   )
 }
