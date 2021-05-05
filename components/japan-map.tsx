@@ -712,7 +712,7 @@ export const JapanMap = ({ onClick }: MapProps) => {
       "
       />
       <path
-        id="fukui"
+        id="toyama"
         fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
@@ -826,7 +826,7 @@ export const JapanMap = ({ onClick }: MapProps) => {
       "
       />
       <path
-        id="toyama"
+        id="fukui"
         fill={areaFillColor}
         stroke="black"
         strokeWidth="1"
