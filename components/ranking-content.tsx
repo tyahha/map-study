@@ -4,7 +4,7 @@ import { loadRanking, Ranking } from "../logic/ranking"
 
 export const RankingContent = ({ rural }: { rural: GamingRural }) => {
   const ranking = useMemo<Ranking>(() => {
-    return (loadRanking(rural) ?? []).sort((a, b) => a.point - b.point)
+    return (loadRanking(rural) ?? []).sort((a, b) => b.point - a.point)
   }, [rural])
 
   return (

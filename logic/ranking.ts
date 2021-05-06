@@ -51,7 +51,7 @@ export const setRanking = (rural: GamingRural, point: number, name: string): voi
     const newRanking: Ranking = []
     let i = 0
     let pushNew = false
-    while (i < ranking.length || newRanking.length !== 3) {
+    while (i < ranking.length && newRanking.length !== 3) {
       if (!pushNew && ranking[i].point < point) {
         newRanking.push(newRank)
         pushNew = true

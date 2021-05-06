@@ -17,7 +17,7 @@ import {RankSaver} from "../components/rank-saver"
 import {JapanMap} from "../components/japan-map"
 import {RankingContent} from "../components/ranking-content"
 
-const timeLimit = 30 * 1000
+const timeLimit = 3 * 1000
 
 export default function Index() {
   const [mode, setMode] = useState(Mode.Title)
@@ -215,6 +215,14 @@ export default function Index() {
       <div className={"map-container"}>
         {mode === Mode.Gaming && (
           <div className={"game-state"}>
+            <CountDownTimer
+              time={timeLimit}
+              timeUp={() => {
+                setMode(Mode.Result)
+              }}
+            />
+            <p className={"point"}>{`点数：${point} 点`}</p>
+            <p className={"prefecture-question"}>問題：{question?.name}</p>
             <p>
               <button
                 onClick={() => {
@@ -224,18 +232,9 @@ export default function Index() {
               >
                 中止
               </button>
-            </p>
-            <CountDownTimer
-              time={timeLimit}
-              timeUp={() => {
-                setMode(Mode.Result)
-              }}
-            />
-            <p className={"point"}>{`点数：${point} 点`}</p>
-            <p className={"prefecture-question"}>問題：{question?.name}</p>
-            {answerState && (
-              <FadeOut time={500} show={!!answer}>
-                <p
+              {answerState && (
+                <FadeOut time={500} show={!!answer}>
+                <span
                   className={classNames("correct-or-incorrect", {
                     correct: isCorrect === true,
                     incorrect: isCorrect === false,
@@ -243,10 +242,11 @@ export default function Index() {
                 >
                   {isCorrect ? "○" : "×"}
                   {answer ? answer.name : ""}
-                </p>
-                <span style={{ display: "none" }}>{answerState?.count}</span>
-              </FadeOut>
-            )}
+                </span>
+                  <span style={{ display: "none" }}>{answerState?.count}</span>
+                </FadeOut>
+              )}
+            </p>
           </div>
         )}
         {rural === GamingRural.All && <JapanMap onClick={click} />}
