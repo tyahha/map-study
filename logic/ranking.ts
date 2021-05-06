@@ -1,22 +1,22 @@
-import { Mode } from "./mode"
+import { GamingRural } from "./mode"
 
 export interface Rank {
   name: string
   point: number
 }
 
-type Ranking = Rank[]
+export type Ranking = Rank[]
 
 const KeyPrefix = "MAP_STUDY_RANKING_"
 
-const getKey = (mode: Mode): string => `${KeyPrefix}_${mode}`
+const getKey = (rural: GamingRural): string => `${KeyPrefix}_${rural}`
 
-export const saveRanking = (mode: Mode, ranking: Ranking): void => {
-  localStorage.setItem(getKey(mode), JSON.stringify(ranking))
+export const saveRanking = (rural: GamingRural, ranking: Ranking): void => {
+  localStorage.setItem(getKey(rural), JSON.stringify(ranking))
 }
 
-export const loadRanking = (mode: Mode): Ranking | null => {
-  const s = localStorage.getItem(getKey(mode))
+export const loadRanking = (rural: GamingRural): Ranking | null => {
+  const s = localStorage.getItem(getKey(rural))
   if (s) {
     const a = JSON.parse(s)
     if (Array.isArray(a)) {
@@ -27,8 +27,8 @@ export const loadRanking = (mode: Mode): Ranking | null => {
   return null
 }
 
-export const isRankIn = (mode: Mode, point: number): boolean => {
-  const ranking = loadRanking(mode)
+export const isRankIn = (rural: GamingRural, point: number): boolean => {
+  const ranking = loadRanking(rural)
   if (!ranking) return true
 
   for (let i = 0; i < ranking.length; i++) {
@@ -39,8 +39,8 @@ export const isRankIn = (mode: Mode, point: number): boolean => {
   return false
 }
 
-export const setRanking = (mode: Mode, point: number, name: string): void => {
-  let ranking = loadRanking(mode)
+export const setRanking = (rural: GamingRural, point: number, name: string): void => {
+  let ranking = loadRanking(rural)
   const newRank = {
     point,
     name,
@@ -62,5 +62,16 @@ export const setRanking = (mode: Mode, point: number, name: string): void => {
     ranking = newRanking
   }
 
-  saveRanking(mode, ranking)
+  saveRankName(name)
+  saveRanking(rural, ranking)
+}
+
+const PREV_NAME_KEY = "PREV_RANK_NAME"
+
+export const getPrevRankName = (): string | null => {
+  return localStorage.getItem(PREV_NAME_KEY)
+}
+
+export const saveRankName = (name: string): void => {
+  localStorage.setItem(PREV_NAME_KEY, name)
 }

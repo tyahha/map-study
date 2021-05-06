@@ -1,26 +1,27 @@
-import { JapanMap } from "../components/japan-map"
-import { useCallback, useRef, useState } from "react"
-import { japanArea, JapanArea, JapanAreaId } from "../data/japan-area"
-import { FadeOut } from "../components/fade-out"
+import {useCallback, useRef, useState} from "react"
+import {japanArea, JapanArea, JapanAreaId} from "../data/japan-area"
+import {FadeOut} from "../components/fade-out"
 import classNames from "classnames"
-import { playCorrectOrInCorrectSound } from "../data/se"
-import { CountDownTimer } from "../components/count-down-timer"
-import { getModeQuestions, Mode } from "../logic/mode"
-import { ChihoMap } from "../components/chiho-map"
-import { HokkaidoTohokuMap } from "../components/hokkaido-tohoku-map"
-import { KantoMap } from "../components/kanto-map"
-import { ChubuMap } from "../components/chubu-map"
-import { KinkiMap } from "../components/kinki-map"
-import { ChugokuShikokuMap } from "../components/chugoku-shikoku-map"
-import { KyusyuMap } from "../components/kyusyu-map"
-import { isRankIn } from "../logic/ranking"
+import {playCorrectOrInCorrectSound} from "../data/se"
+import {CountDownTimer} from "../components/count-down-timer"
+import {GamingRural, gamingRuralText, getQuestions, Mode} from "../logic/mode"
+import {ChihoMap} from "../components/chiho-map"
+import {HokkaidoTohokuMap} from "../components/hokkaido-tohoku-map"
+import {KantoMap} from "../components/kanto-map"
+import {ChubuMap} from "../components/chubu-map"
+import {KinkiMap} from "../components/kinki-map"
+import {ChugokuShikokuMap} from "../components/chugoku-shikoku-map"
+import {KyusyuMap} from "../components/kyusyu-map"
+import {isRankIn} from "../logic/ranking"
 import {RankSaver} from "../components/rank-saver"
+import {JapanMap} from "../components/japan-map"
+import {RankingContent} from "../components/ranking-content"
 
-const timeLimit = 3 * 1000
+const timeLimit = 30 * 1000
 
 export default function Index() {
   const [mode, setMode] = useState(Mode.Title)
-  const [prevGameMode, setPrevGameMode] = useState(Mode.All)
+  const [rural, setRural] = useState(GamingRural.All)
   const [point, setPoint] = useState(0)
   const [answerState, setAnswerState] = useState<
     undefined | { count: number; correct: boolean; answer: JapanArea }
@@ -33,7 +34,7 @@ export default function Index() {
     console.log("current", questions.current)
     if (questions.current.length <= 0) {
       console.log("refresh q")
-      questions.current = getModeQuestions(mode)
+      questions.current = getQuestions(rural)
     }
     const ret = questions.current[0]
     questions.current.shift()
@@ -41,13 +42,12 @@ export default function Index() {
   }
 
   const [question, setCurrentQuestion] = useState<JapanArea | undefined>(undefined)
-  const isGaming = mode !== Mode.Title && mode !== Mode.Result
-
-  const startGame = (mode: Mode) => {
+  const startGame = (rural: GamingRural) => {
     setAnswerState(undefined)
     setPoint(0)
-    setMode(mode)
-    questions.current = getModeQuestions(mode)
+    setMode(Mode.Gaming)
+    setRural(rural)
+    questions.current = getQuestions(rural)
     setCurrentQuestion(getNextQuestion())
   }
 
@@ -82,6 +82,11 @@ export default function Index() {
     [question],
   )
 
+  const showRanking = (rural: GamingRural) => {
+    setRural(rural)
+    setMode(Mode.RankingView)
+  }
+
   return (
     <div className={"game-window"}>
       {mode === Mode.Title && (
@@ -90,35 +95,108 @@ export default function Index() {
           <div className={"overlay-content"}>
             <p className={"title"}>日本地図ゲーム</p>
             <p>
-              <button onClick={() => startGame(Mode.All)}>全国都道府県</button>
-              <button onClick={() => startGame(Mode.Chiho)}>地方</button>
+              <button onClick={() => startGame(GamingRural.All)}>
+                {gamingRuralText(GamingRural.All)}
+              </button>
+              <button onClick={() => startGame(GamingRural.Chiho)}>
+                {gamingRuralText(GamingRural.Chiho)}
+              </button>
             </p>
             <p>
-              <button onClick={() => startGame(Mode.HokkaidoTohoku)}>東北地方</button>
-              <button onClick={() => startGame(Mode.Kanto)}>関東地方</button>
-              <button onClick={() => startGame(Mode.Chubu)}>中部地方</button>
+              <button onClick={() => startGame(GamingRural.HokkaidoTohoku)}>
+                {gamingRuralText(GamingRural.HokkaidoTohoku)}
+              </button>
+              <button onClick={() => startGame(GamingRural.Kanto)}>
+                {gamingRuralText(GamingRural.Kanto)}
+              </button>
+              <button onClick={() => startGame(GamingRural.Chubu)}>
+                {gamingRuralText(GamingRural.Chubu)}
+              </button>
             </p>
             <p>
-              <button onClick={() => startGame(Mode.Kinki)}>近畿地方</button>
-              <button onClick={() => startGame(Mode.ChugokuShikoku)}>中国・四国地方</button>
-              <button onClick={() => startGame(Mode.Kyusyu)}>九州地方</button>
+              <button onClick={() => startGame(GamingRural.Kinki)}>
+                {gamingRuralText(GamingRural.Kinki)}
+              </button>
+              <button onClick={() => startGame(GamingRural.ChugokuShikoku)}>
+                {gamingRuralText(GamingRural.ChugokuShikoku)}
+              </button>
+              <button onClick={() => startGame(GamingRural.Kyusyu)}>
+                {gamingRuralText(GamingRural.Kyusyu)}
+              </button>
+            </p>
+            <p>
+              <button onClick={() => setMode(Mode.RankingSelect)}>ランキング見る</button>
             </p>
           </div>
         </>
       )}
+      {mode === Mode.RankingSelect && (
+        <>
+          <div className={"overlay"} />
+          <div className={"overlay-content"}>
+            <p className={"title"}>ランキング選択</p>
+            <p>
+              <button onClick={() => showRanking(GamingRural.All)}>
+                {gamingRuralText(GamingRural.All)}
+              </button>
+              <button onClick={() => showRanking(GamingRural.Chiho)}>
+                {gamingRuralText(GamingRural.Chiho)}
+              </button>
+            </p>
+            <p>
+              <button onClick={() => showRanking(GamingRural.HokkaidoTohoku)}>
+                {gamingRuralText(GamingRural.HokkaidoTohoku)}
+              </button>
+              <button onClick={() => showRanking(GamingRural.Kanto)}>
+                {gamingRuralText(GamingRural.Kanto)}
+              </button>
+              <button onClick={() => showRanking(GamingRural.Chubu)}>
+                {gamingRuralText(GamingRural.Chubu)}
+              </button>
+            </p>
+            <p>
+              <button onClick={() => showRanking(GamingRural.Kinki)}>
+                {gamingRuralText(GamingRural.Kinki)}
+              </button>
+              <button onClick={() => showRanking(GamingRural.ChugokuShikoku)}>
+                {gamingRuralText(GamingRural.ChugokuShikoku)}
+              </button>
+              <button onClick={() => showRanking(GamingRural.Kyusyu)}>
+                {gamingRuralText(GamingRural.Kyusyu)}
+              </button>
+            </p>            <p>
+              <button onClick={() => setMode(Mode.Title)}>戻る</button>
+            </p>
+          </div>
+        </>
+      )}
+      { mode === Mode.RankingView &&
+        <>
+          <div className={"overlay"} />
+          <div className={"overlay-content"}>
+            <RankingContent rural={rural} />
+            <button onClick={() => {
+              setMode(Mode.RankingSelect)
+              setRural(GamingRural.All)
+            }}>戻る</button>
+            <button onClick={() => {
+              setMode(Mode.Title)
+              setRural(GamingRural.All)
+            }}>タイトルに戻る</button>
+          </div>
+        </>
+      }
       {mode === Mode.Result && (
         <>
           <div className={"overlay"} />
           <div className={"overlay-content"}>
             <p className={"title"}>今回の得点</p>
             <p className={"result-point"}>{`${point} 点`}</p>
-            <p className={"title"}>{isRankIn(prevGameMode, point) ? "ランクイン" : "ランク外"}</p>
-            {isRankIn(prevGameMode, point) && (
-              <RankSaver mode={prevGameMode} point={point} />
-            )}
+            <p className={"title"}>{isRankIn(rural, point) ? "ランクイン" : "ランク外"}</p>
+            {isRankIn(rural, point) && <RankSaver rural={rural} point={point} />}
             <button
               onClick={() => {
-                startGame(prevGameMode)
+                startGame(rural)
               }}
             >
               もう１回遊ぶ
@@ -126,6 +204,7 @@ export default function Index() {
             <button
               onClick={() => {
                 setMode(Mode.Title)
+                setRural(GamingRural.All)
               }}
             >
               タイトルに戻る
@@ -134,15 +213,21 @@ export default function Index() {
         </>
       )}
       <div className={"map-container"}>
-        {isGaming && (
+        {mode === Mode.Gaming && (
           <div className={"game-state"}>
             <p>
-              <button onClick={() => setMode(Mode.Title)}>中止</button>
+              <button
+                onClick={() => {
+                  setMode(Mode.Title)
+                  setRural(GamingRural.All)
+                }}
+              >
+                中止
+              </button>
             </p>
             <CountDownTimer
               time={timeLimit}
               timeUp={() => {
-                setPrevGameMode(mode)
                 setMode(Mode.Result)
               }}
             />
@@ -164,32 +249,14 @@ export default function Index() {
             )}
           </div>
         )}
-        {(mode === Mode.Title ||
-          mode === Mode.All ||
-          (mode === Mode.Result && prevGameMode === Mode.All)) && <JapanMap onClick={click} />}
-        {(mode === Mode.Chiho || (mode === Mode.Result && prevGameMode === Mode.Chiho)) && (
-          <ChihoMap onClick={click} />
-        )}
-        {(mode === Mode.HokkaidoTohoku ||
-          (mode === Mode.Result && prevGameMode === Mode.HokkaidoTohoku)) && (
-          <HokkaidoTohokuMap onClick={click} />
-        )}
-        {(mode === Mode.Kanto || (mode === Mode.Result && prevGameMode === Mode.Kanto)) && (
-          <KantoMap onClick={click} />
-        )}
-        {(mode === Mode.Chubu || (mode === Mode.Result && prevGameMode === Mode.Chubu)) && (
-          <ChubuMap onClick={click} />
-        )}
-        {(mode === Mode.Kinki || (mode === Mode.Result && prevGameMode === Mode.Kinki)) && (
-          <KinkiMap onClick={click} />
-        )}
-        {(mode === Mode.ChugokuShikoku ||
-          (mode === Mode.Result && prevGameMode === Mode.ChugokuShikoku)) && (
-          <ChugokuShikokuMap onClick={click} />
-        )}
-        {(mode === Mode.Kyusyu || (mode === Mode.Result && prevGameMode === Mode.Kyusyu)) && (
-          <KyusyuMap onClick={click} />
-        )}
+        {rural === GamingRural.All && <JapanMap onClick={click} />}
+        {rural === GamingRural.Chiho && <ChihoMap onClick={click} />}
+        {rural === GamingRural.HokkaidoTohoku && <HokkaidoTohokuMap onClick={click} />}
+        {rural === GamingRural.Kanto && <KantoMap onClick={click} />}
+        {rural === GamingRural.Chubu && <ChubuMap onClick={click} />}
+        {rural === GamingRural.Kinki && <KinkiMap onClick={click} />}
+        {rural === GamingRural.ChugokuShikoku && <ChugokuShikokuMap onClick={click} />}
+        {rural === GamingRural.Kyusyu && <KyusyuMap onClick={click} />}
       </div>
     </div>
   )

@@ -1,9 +1,9 @@
-import { Mode } from "../logic/mode"
+import { GamingRural } from "../logic/mode"
 import { useState } from "react"
-import { setRanking } from "../logic/ranking"
+import {getPrevRankName, setRanking} from "../logic/ranking"
 
-export const RankSaver = ({ mode, point }: { mode: Mode; point: number }) => {
-  const [name, setName] = useState("")
+export const RankSaver = ({ rural, point }: { rural: GamingRural; point: number }) => {
+  const [name, setName] = useState(getPrevRankName() ?? "")
   const [saved, setSaved] = useState(false)
   return saved ? (
     <p>ランキングを保存しました</p>
@@ -20,7 +20,7 @@ export const RankSaver = ({ mode, point }: { mode: Mode; point: number }) => {
               alert("名前を入力してください")
               return
             }
-            setRanking(mode, point, name)
+            setRanking(rural, point, name)
             setSaved(true)
           }}
         >
