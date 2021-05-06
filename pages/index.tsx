@@ -17,7 +17,7 @@ import {RankSaver} from "../components/rank-saver"
 import {JapanMap} from "../components/japan-map"
 import {RankingContent} from "../components/ranking-content"
 
-const timeLimit = 3 * 1000
+const timeLimit = 30 * 1000
 
 export default function Index() {
   const [mode, setMode] = useState(Mode.Title)
