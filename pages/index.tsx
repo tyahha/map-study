@@ -7,12 +7,14 @@ import { playCorrectOrInCorrectSound } from "../data/se"
 import { CountDownTimer } from "../components/count-down-timer"
 import { getModeQuestions, Mode } from "../logic/mode"
 import { ChihoMap } from "../components/chiho-map"
-import {HokkaidoTohokuMap} from "../components/hokkaido-tohoku-map"
-import {KantoMap} from "../components/kanto-map"
-import {ChubuMap} from "../components/chubu-map"
-import {KinkiMap} from "../components/kinki-map"
-import {ChugokuShikokuMap} from "../components/chugoku-shikoku-map"
-import {KyusyuMap} from "../components/kyusyu-map"
+import { HokkaidoTohokuMap } from "../components/hokkaido-tohoku-map"
+import { KantoMap } from "../components/kanto-map"
+import { ChubuMap } from "../components/chubu-map"
+import { KinkiMap } from "../components/kinki-map"
+import { ChugokuShikokuMap } from "../components/chugoku-shikoku-map"
+import { KyusyuMap } from "../components/kyusyu-map"
+import { isRankIn } from "../logic/ranking"
+import {RankSaver} from "../components/rank-saver"
 
 const timeLimit = 3 * 1000
 
@@ -63,7 +65,7 @@ export default function Index() {
 
       const answer = japanArea.get(id)
       if (!answer) {
-        throw  new Error(`unknown area id=${id}`)
+        throw new Error(`unknown area id=${id}`)
       }
 
       setAnswerState((c) => {
@@ -92,26 +94,14 @@ export default function Index() {
               <button onClick={() => startGame(Mode.Chiho)}>地方</button>
             </p>
             <p>
-              <button onClick={() => startGame(Mode.HokkaidoTohoku)}>
-                東北地方
-              </button>
-              <button onClick={() => startGame(Mode.Kanto)}>
-                関東地方
-              </button>
-              <button onClick={() => startGame(Mode.Chubu)}>
-                中部地方
-              </button>
+              <button onClick={() => startGame(Mode.HokkaidoTohoku)}>東北地方</button>
+              <button onClick={() => startGame(Mode.Kanto)}>関東地方</button>
+              <button onClick={() => startGame(Mode.Chubu)}>中部地方</button>
             </p>
             <p>
-              <button onClick={() => startGame(Mode.Kinki)}>
-                近畿地方
-              </button>
-              <button onClick={() => startGame(Mode.ChugokuShikoku)}>
-                中国・四国地方
-              </button>
-              <button onClick={() => startGame(Mode.Kyusyu)}>
-                九州地方
-              </button>
+              <button onClick={() => startGame(Mode.Kinki)}>近畿地方</button>
+              <button onClick={() => startGame(Mode.ChugokuShikoku)}>中国・四国地方</button>
+              <button onClick={() => startGame(Mode.Kyusyu)}>九州地方</button>
             </p>
           </div>
         </>
@@ -122,6 +112,10 @@ export default function Index() {
           <div className={"overlay-content"}>
             <p className={"title"}>今回の得点</p>
             <p className={"result-point"}>{`${point} 点`}</p>
+            <p className={"title"}>{isRankIn(prevGameMode, point) ? "ランクイン" : "ランク外"}</p>
+            {isRankIn(prevGameMode, point) && (
+              <RankSaver mode={prevGameMode} point={point} />
+            )}
             <button
               onClick={() => {
                 startGame(prevGameMode)
@@ -176,7 +170,8 @@ export default function Index() {
         {(mode === Mode.Chiho || (mode === Mode.Result && prevGameMode === Mode.Chiho)) && (
           <ChihoMap onClick={click} />
         )}
-        {(mode === Mode.HokkaidoTohoku || (mode === Mode.Result && prevGameMode === Mode.HokkaidoTohoku)) && (
+        {(mode === Mode.HokkaidoTohoku ||
+          (mode === Mode.Result && prevGameMode === Mode.HokkaidoTohoku)) && (
           <HokkaidoTohokuMap onClick={click} />
         )}
         {(mode === Mode.Kanto || (mode === Mode.Result && prevGameMode === Mode.Kanto)) && (
@@ -188,7 +183,8 @@ export default function Index() {
         {(mode === Mode.Kinki || (mode === Mode.Result && prevGameMode === Mode.Kinki)) && (
           <KinkiMap onClick={click} />
         )}
-        {(mode === Mode.ChugokuShikoku || (mode === Mode.Result && prevGameMode === Mode.ChugokuShikoku)) && (
+        {(mode === Mode.ChugokuShikoku ||
+          (mode === Mode.Result && prevGameMode === Mode.ChugokuShikoku)) && (
           <ChugokuShikokuMap onClick={click} />
         )}
         {(mode === Mode.Kyusyu || (mode === Mode.Result && prevGameMode === Mode.Kyusyu)) && (
