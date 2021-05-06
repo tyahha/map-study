@@ -13,7 +13,7 @@ export type JapanAreaId =
   "yamagata" |
   "miyagi" |
   "niigata" |
-  "fukusima" |
+  "fukushima" |
   "ishikawa" |
   "tochigi" |
   "nagano" |
@@ -73,7 +73,7 @@ export const japanArea = new Map<JapanAreaId, JapanArea>(
     ["iwate", {id: "iwate",	name: "岩手県", capitalName:	"盛岡市", type: "prefecture", rural: "tohoku"}],
     ["yamagata", {id: "yamagata",	name: "山形県", capitalName:	"山形市", type: "prefecture", rural: "tohoku"}],
     ["miyagi", {id: "miyagi",	name: "宮城県", capitalName:	"仙台市", type: "prefecture", rural: "tohoku"}],
-    ["fukusima", {id: "fukusima",	name: "福島県", capitalName:	"福島市", type: "prefecture", rural: "tohoku"}],
+    ["fukushima", {id: "fukushima",	name: "福島県", capitalName:	"福島市", type: "prefecture", rural: "tohoku"}],
 
     ["kanto", {id: "kanto",	name: "関東地方", capitalName:	"", type: "rural", rural: "kanto"}],
     ["tochigi", {id: "tochigi",	name: "栃木県", capitalName:	"宇都宮市", type: "prefecture", rural: "kanto"}],

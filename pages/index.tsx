@@ -7,8 +7,14 @@ import { playCorrectOrInCorrectSound } from "../data/se"
 import { CountDownTimer } from "../components/count-down-timer"
 import { getModeQuestions, Mode } from "../logic/mode"
 import { ChihoMap } from "../components/chiho-map"
+import {HokkaidoTohokuMap} from "../components/hokkaido-tohoku-map"
+import {KantoMap} from "../components/kanto-map"
+import {ChubuMap} from "../components/chubu-map"
+import {KinkiMap} from "../components/kinki-map"
+import {ChugokuShikokuMap} from "../components/chugoku-shikoku-map"
+import {KyusyuMap} from "../components/kyusyu-map"
 
-const timeLimit = 30 * 1000
+const timeLimit = 3 * 1000
 
 export default function Index() {
   const [mode, setMode] = useState(Mode.Title)
@@ -22,7 +28,9 @@ export default function Index() {
 
   const questions = useRef<JapanArea[]>([])
   const getNextQuestion = (): JapanArea => {
+    console.log("current", questions.current)
     if (questions.current.length <= 0) {
+      console.log("refresh q")
       questions.current = getModeQuestions(mode)
     }
     const ret = questions.current[0]
@@ -30,7 +38,7 @@ export default function Index() {
     return ret
   }
 
-  const [question, setCurrentQuestion] = useState<JapanArea>(getNextQuestion())
+  const [question, setCurrentQuestion] = useState<JapanArea | undefined>(undefined)
   const isGaming = mode !== Mode.Title && mode !== Mode.Result
 
   const startGame = (mode: Mode) => {
@@ -45,7 +53,7 @@ export default function Index() {
     (id: JapanAreaId) => {
       console.log(id)
 
-      const isCorrect = id === question.id
+      const isCorrect = id === question?.id
 
       playCorrectOrInCorrectSound(isCorrect)
 
@@ -81,26 +89,27 @@ export default function Index() {
             <p className={"title"}>日本地図ゲーム</p>
             <p>
               <button onClick={() => startGame(Mode.All)}>全国都道府県</button>
-            </p>
-            <p>
               <button onClick={() => startGame(Mode.Chiho)}>地方</button>
             </p>
             <p>
-              <button disabled onClick={() => startGame(Mode.Chiho)}>
+              <button onClick={() => startGame(Mode.HokkaidoTohoku)}>
                 東北地方
               </button>
-              <button disabled onClick={() => startGame(Mode.Chiho)}>
+              <button onClick={() => startGame(Mode.Kanto)}>
                 関東地方
               </button>
-              <button disabled onClick={() => startGame(Mode.Chiho)}>
+              <button onClick={() => startGame(Mode.Chubu)}>
                 中部地方
               </button>
             </p>
             <p>
-              <button disabled onClick={() => startGame(Mode.Chiho)}>
+              <button onClick={() => startGame(Mode.Kinki)}>
+                近畿地方
+              </button>
+              <button onClick={() => startGame(Mode.ChugokuShikoku)}>
                 中国・四国地方
               </button>
-              <button disabled onClick={() => startGame(Mode.Chiho)}>
+              <button onClick={() => startGame(Mode.Kyusyu)}>
                 九州地方
               </button>
             </p>
@@ -132,7 +141,19 @@ export default function Index() {
       )}
       <div className={"map-container"}>
         {isGaming && (
-          <>
+          <div className={"game-state"}>
+            <p>
+              <button onClick={() => setMode(Mode.Title)}>中止</button>
+            </p>
+            <CountDownTimer
+              time={timeLimit}
+              timeUp={() => {
+                setPrevGameMode(mode)
+                setMode(Mode.Result)
+              }}
+            />
+            <p className={"point"}>{`点数：${point} 点`}</p>
+            <p className={"prefecture-question"}>問題：{question?.name}</p>
             {answerState && (
               <FadeOut time={500} show={!!answer}>
                 <p
@@ -147,22 +168,31 @@ export default function Index() {
                 <span style={{ display: "none" }}>{answerState?.count}</span>
               </FadeOut>
             )}
-            <CountDownTimer
-              time={timeLimit}
-              timeUp={() => {
-                setPrevGameMode(mode)
-                setMode(Mode.Result)
-              }}
-            />
-            <p className={"point"}>{`点数：${point} 点`}</p>
-            <p className={"prefecture-question"}>{question.name}</p>
-          </>
+          </div>
         )}
         {(mode === Mode.Title ||
           mode === Mode.All ||
           (mode === Mode.Result && prevGameMode === Mode.All)) && <JapanMap onClick={click} />}
         {(mode === Mode.Chiho || (mode === Mode.Result && prevGameMode === Mode.Chiho)) && (
           <ChihoMap onClick={click} />
+        )}
+        {(mode === Mode.HokkaidoTohoku || (mode === Mode.Result && prevGameMode === Mode.HokkaidoTohoku)) && (
+          <HokkaidoTohokuMap onClick={click} />
+        )}
+        {(mode === Mode.Kanto || (mode === Mode.Result && prevGameMode === Mode.Kanto)) && (
+          <KantoMap onClick={click} />
+        )}
+        {(mode === Mode.Chubu || (mode === Mode.Result && prevGameMode === Mode.Chubu)) && (
+          <ChubuMap onClick={click} />
+        )}
+        {(mode === Mode.Kinki || (mode === Mode.Result && prevGameMode === Mode.Kinki)) && (
+          <KinkiMap onClick={click} />
+        )}
+        {(mode === Mode.ChugokuShikoku || (mode === Mode.Result && prevGameMode === Mode.ChugokuShikoku)) && (
+          <ChugokuShikokuMap onClick={click} />
+        )}
+        {(mode === Mode.Kyusyu || (mode === Mode.Result && prevGameMode === Mode.Kyusyu)) && (
+          <KyusyuMap onClick={click} />
         )}
       </div>
     </div>

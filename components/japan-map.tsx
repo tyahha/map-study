@@ -500,7 +500,7 @@ export const JapanMap = ({ onClick }: MapProps) => {
       "
       />
       <path
-        id="fukusima"
+        id="fukushima"
         fill={areaFillColor}
         stroke="black"
         strokeWidth="1"

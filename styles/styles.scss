@@ -1,9 +1,12 @@
 * {
   user-select: none;
 }
+p {
+  margin: 0;
+}
 
 .map {
-  transition: all .3s ease-out;
+  transition: all 0.3s ease-out;
   cursor: pointer;
 
   &:hover {
@@ -24,10 +27,19 @@
   left: 0;
   top: 0;
   z-index: 1;
-
 }
 
 .overlay-content {
+  margin: 8px;
+
+  p {
+    margin: 8px;
+
+    button {
+      margin: 8px;
+    }
+  }
+
   text-align: center;
   z-index: 2;
 
@@ -37,46 +49,38 @@
   left: 0;
   top: 0;
 
-  font-size: 64px;
+  font-size: 32px;
 
   .result-point {
-    font-size: 96px;
+    font-size: 64px;
   }
 }
 
-.prefecture-question {
+.game-state {
   position: absolute;
-  top: 30%;
-  left: 30%;
-  font-size: 48px;
-}
+  font-size: 24px;
+  text-align: left;
 
-.point {
-  position: absolute;
-  font-size: 48px;
-  top: 64px;
-  left: 100px;
-}
-
-.timer {
-  position: absolute;
-  top: 4px;
-  left: 8px;
-  font-size: 48px;
-}
-
-.correct-or-incorrect {
-  font-size: 48px;
-  position: absolute;
-  top: calc(50% - 100px);
-  left: calc(50% - 200px);
-
-  &.correct {
-    color: blue;
+  .point {
+    padding-left: 2em;
   }
 
-  &.incorrect {
-    color: red;
+  .prefecture-question {
+    font-size: 32px;
+    padding-left: 1em;
+  }
+
+  .correct-or-incorrect {
+    font-size: 32px;
+    padding-left: 1em;
+
+    &.correct {
+      color: blue;
+    }
+
+    &.incorrect {
+      color: red;
+    }
   }
 }
 
@@ -85,7 +89,7 @@
   position: relative;
 }
 
-@media (orientation: landscape){
+@media (orientation: landscape) {
   // デバイスが横向きの場合の記述
   .map-container {
     height: 100vh;
@@ -96,7 +100,7 @@
   }
 }
 
-@media (orientation: portrait){
+@media (orientation: portrait) {
   // デバイスが縦向きの場合の記述
   .map-container {
     width: 100vw;
@@ -104,5 +108,9 @@
     svg {
       width: 100%;
     }
+  }
+
+  .game-state {
+    position: inherit;
   }
 }

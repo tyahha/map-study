@@ -5,9 +5,10 @@ export enum Mode {
   Title,
   All,
   Chiho,
-  Tohoku,
+  HokkaidoTohoku,
   Kanto,
   Chubu,
+  Kinki,
   ChugokuShikoku,
   Kyusyu,
   Result,
@@ -19,12 +20,14 @@ export const getModeQuestions = (mode: Mode): JapanArea[] => {
       ? (a) => a.type === "prefecture"
       : mode === Mode.Chiho
       ? (a) => a.type === "rural"
-      : mode === Mode.Tohoku
-      ? (a) => a.type === "prefecture" && a.rural === "tohoku"
+      : mode === Mode.HokkaidoTohoku
+      ? (a) => a.type === "prefecture" && (a.rural === "tohoku" || a.rural === "hokkaido")
       : mode === Mode.Kanto
       ? (a) => a.type === "prefecture" && a.rural === "kanto"
       : mode === Mode.Chubu
       ? (a) => a.type === "prefecture" && a.rural === "chubu"
+      : mode === Mode.Kinki
+      ? (a) => a.type === "prefecture" && a.rural === "kinki"
       : mode === Mode.Kyusyu
       ? (a) => a.type === "prefecture" && a.rural === "kyusyu"
       : mode === Mode.ChugokuShikoku
