@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react"
 import { japanArea, JapanArea, JapanAreaId } from "../data/japan-area"
 import { playCorrectOrInCorrectSound } from "../data/se"
-import { GamingRural, getQuestions, Mode } from "../logic/mode"
+import {GameMode, getQuestions, Scene} from "../logic/scene"
 import { MapGame } from "../components/map-game"
 import { AnswerState } from "../logic/answer-state"
 import { TitleOverlay } from "../components/overlay/title-overlay"
@@ -12,8 +12,8 @@ import { ResultOverlay } from "../components/overlay/result-overlay"
 const timeLimit = 30 * 1000
 
 export default function Index() {
-  const [mode, setMode] = useState(Mode.Title)
-  const [rural, setRural] = useState(GamingRural.All)
+  const [scene, setScene] = useState(Scene.Title)
+  const [gameMode, setGameMode] = useState(GameMode.All)
   const [point, setPoint] = useState(0)
   const [answerState, setAnswerState] = useState<undefined | AnswerState>()
 
@@ -22,7 +22,7 @@ export default function Index() {
     console.log("current", questions.current)
     if (questions.current.length <= 0) {
       console.log("refresh q")
-      questions.current = getQuestions(rural)
+      questions.current = getQuestions(gameMode)
     }
     const ret = questions.current[0]
     questions.current.shift()
@@ -30,12 +30,12 @@ export default function Index() {
   }
 
   const [question, setCurrentQuestion] = useState<JapanArea | undefined>(undefined)
-  const startGame = (rural: GamingRural) => {
+  const startGame = (gameMode: GameMode) => {
     setAnswerState(undefined)
     setPoint(0)
-    setMode(Mode.Gaming)
-    setRural(rural)
-    questions.current = getQuestions(rural)
+    setScene(Scene.Gaming)
+    setGameMode(gameMode)
+    questions.current = getQuestions(gameMode)
     setCurrentQuestion(getNextQuestion())
   }
 
@@ -70,48 +70,48 @@ export default function Index() {
     [question],
   )
 
-  const showRanking = (rural: GamingRural) => {
-    setRural(rural)
-    setMode(Mode.RankingView)
+  const showRanking = (rural: GameMode) => {
+    setGameMode(rural)
+    setScene(Scene.RankingView)
   }
 
   return (
     <div className={"game-window"}>
-      {mode === Mode.Title && <TitleOverlay onStartGame={startGame} onChangeMode={setMode} />}
-      {mode === Mode.RankingSelect && (
-        <RankingSelectOverlay onSelectRanking={showRanking} onChangeMode={setMode} />
+      {scene === Scene.Title && <TitleOverlay onStartGame={startGame} onChangeMode={setScene} />}
+      {scene === Scene.RankingSelect && (
+        <RankingSelectOverlay onSelectRanking={showRanking} onChangeScene={setScene} />
       )}
-      {mode === Mode.RankingView && (
+      {scene === Scene.RankingView && (
         <RankingOverlay
-          rural={rural}
-          onChangeMode={(mode) => {
-            setMode(mode)
-            setRural(GamingRural.All)
+          gameMode={gameMode}
+          onChangeScene={(mode) => {
+            setScene(mode)
+            setGameMode(GameMode.All)
           }}
         />
       )}
-      {mode === Mode.Result && (
+      {scene === Scene.Result && (
         <ResultOverlay
           point={point}
-          rural={rural}
+          rural={gameMode}
           onRestart={() => {
-            startGame(rural)
+            startGame(gameMode)
           }}
           onReturnTitle={() => {
-            setMode(Mode.Title)
-            setRural(GamingRural.All)
+            setScene(Scene.Title)
+            setGameMode(GameMode.All)
           }}
         />
       )}
       <MapGame
-        mode={mode}
+        scene={scene}
         point={point}
-        rural={rural}
+        gameMode={gameMode}
         timeLimit={timeLimit}
         question={question}
         answerState={answerState}
-        onChangeMode={setMode}
-        onChangeRural={setRural}
+        onChangeMode={setScene}
+        onChangeRural={setGameMode}
         onClickMap={click}
       />
     </div>

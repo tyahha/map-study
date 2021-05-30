@@ -1,4 +1,4 @@
-import { GamingRural } from "./mode"
+import { GameMode } from "./scene"
 
 export interface Rank {
   name: string
@@ -9,13 +9,13 @@ export type Ranking = Rank[]
 
 const KeyPrefix = "MAP_STUDY_RANKING_"
 
-const getKey = (rural: GamingRural): string => `${KeyPrefix}_${rural}`
+const getKey = (rural: GameMode): string => `${KeyPrefix}_${rural}`
 
-export const saveRanking = (rural: GamingRural, ranking: Ranking): void => {
+export const saveRanking = (rural: GameMode, ranking: Ranking): void => {
   localStorage.setItem(getKey(rural), JSON.stringify(ranking))
 }
 
-export const loadRanking = (rural: GamingRural): Ranking | null => {
+export const loadRanking = (rural: GameMode): Ranking | null => {
   const s = localStorage.getItem(getKey(rural))
   if (s) {
     const a = JSON.parse(s)
@@ -27,7 +27,7 @@ export const loadRanking = (rural: GamingRural): Ranking | null => {
   return null
 }
 
-export const isRankIn = (rural: GamingRural, point: number): boolean => {
+export const isRankIn = (rural: GameMode, point: number): boolean => {
   const ranking = loadRanking(rural)
   if (!ranking) return true
 
@@ -39,7 +39,7 @@ export const isRankIn = (rural: GamingRural, point: number): boolean => {
   return false
 }
 
-export const setRanking = (rural: GamingRural, point: number, name: string): void => {
+export const setRanking = (rural: GameMode, point: number, name: string): void => {
   let ranking = loadRanking(rural)
   const newRank = {
     point,

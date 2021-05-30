@@ -119,3 +119,15 @@ p {
     position: inherit;
   }
 }
+
+.map-name-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: auto;
+  width: 50%;
+
+  button {
+    margin: 8px;
+  }
+}

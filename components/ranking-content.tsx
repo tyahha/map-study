@@ -1,11 +1,11 @@
-import { GamingRural } from "../logic/mode"
+import { GameMode } from "../logic/scene"
 import { useMemo } from "react"
 import { loadRanking, Ranking } from "../logic/ranking"
 
-export const RankingContent = ({ rural }: { rural: GamingRural }) => {
+export const RankingContent = ({ gameMode }: { gameMode: GameMode }) => {
   const ranking = useMemo<Ranking>(() => {
-    return (loadRanking(rural) ?? []).sort((a, b) => b.point - a.point)
-  }, [rural])
+    return (loadRanking(gameMode) ?? []).sort((a, b) => b.point - a.point)
+  }, [gameMode])
 
   return (
     <>

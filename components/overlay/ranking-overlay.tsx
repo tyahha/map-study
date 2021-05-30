@@ -1,27 +1,27 @@
-import { GamingRural, Mode } from "../../logic/mode"
+import { GameMode, Scene } from "../../logic/scene"
 import { RankingContent } from "../ranking-content"
 import { Overlay } from "./overlay"
 
 export const RankingOverlay = ({
-  rural,
-  onChangeMode,
+  gameMode,
+  onChangeScene,
 }: {
-  rural: GamingRural
-  onChangeMode: (mode: Mode) => void
+  gameMode: GameMode
+  onChangeScene: (scene: Scene) => void
 }) => {
   return (
     <Overlay>
-      <RankingContent rural={rural} />
+      <RankingContent gameMode={gameMode} />
       <button
         onClick={() => {
-          onChangeMode(Mode.RankingSelect)
+          onChangeScene(Scene.RankingSelect)
         }}
       >
         戻る
       </button>
       <button
         onClick={() => {
-          onChangeMode(Mode.Title)
+          onChangeScene(Scene.Title)
         }}
       >
         タイトルに戻る

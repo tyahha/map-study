@@ -1,22 +1,15 @@
-import { GamingRural, Mode } from "../logic/mode"
-import { CountDownTimer } from "./count-down-timer"
-import { FadeOut } from "./fade-out"
-import classNames from "classnames"
-import { JapanMap } from "./japan-map"
-import { ChihoMap } from "./chiho-map"
-import { HokkaidoTohokuMap } from "./hokkaido-tohoku-map"
-import { KantoMap } from "./kanto-map"
-import { ChubuMap } from "./chubu-map"
-import { KinkiMap } from "./kinki-map"
-import { ChugokuShikokuMap } from "./chugoku-shikoku-map"
-import { KyusyuMap } from "./kyusyu-map"
+import { GameMode, getGameModeRural, getQuestions, Scene } from "../logic/scene"
 import { JapanArea, JapanAreaId } from "../data/japan-area"
 import { AnswerState } from "../logic/answer-state"
+import { GameControl } from "./game-control"
+import { MapView } from "./map-view"
+import { Overlay } from "./overlay/overlay"
+import { useMemo } from "react"
 
 export const MapGame = ({
-  mode,
+  scene,
   point,
-  rural,
+  gameMode,
   timeLimit,
   question,
   answerState,
@@ -24,65 +17,63 @@ export const MapGame = ({
   onChangeRural,
   onClickMap,
 }: {
-  mode: Mode
+  scene: Scene
   point: number
-  rural: GamingRural
+  gameMode: GameMode
   timeLimit: number
   question: undefined | JapanArea
   answerState: undefined | AnswerState
-  onChangeMode: (mode: Mode) => void
-  onChangeRural: (rural: GamingRural) => void
+  onChangeMode: (mode: Scene) => void
+  onChangeRural: (rural: GameMode) => void
   onClickMap: (id: JapanAreaId) => void
 }) => {
-  const answer = answerState?.answer
-  const isCorrect = answerState?.correct
+  const buttonsToAnswer = useMemo(() => {
+    return getQuestions(gameMode).map((a) => {
+      return (
+        <button onClick={() => onClickMap(a.id)} key={a.id}>
+          {gameMode === GameMode.CaptalToPrefecture ? a.name : a.capitalName}
+        </button>
+      )
+    })
+  }, [answerState, gameMode])
 
-  return (
+  const rural = useMemo(() => getGameModeRural(gameMode), [gameMode])
+
+  return scene === Scene.Gaming &&
+    (gameMode === GameMode.PrefectureToCapital || gameMode === GameMode.CaptalToPrefecture) ? (
     <div className={"map-container"}>
-      {mode === Mode.Gaming && (
-        <div className={"game-state"}>
-          <CountDownTimer
-            time={timeLimit}
-            timeUp={() => {
-              onChangeMode(Mode.Result)
-            }}
-          />
-          <p className={"point"}>{`点数：${point} 点`}</p>
-          <p className={"prefecture-question"}>問題：{question?.name}</p>
-          <p>
-            <button
-              onClick={() => {
-                onChangeMode(Mode.Title)
-                onChangeRural(GamingRural.All)
-              }}
-            >
-              中止
-            </button>
-            {answerState && (
-              <FadeOut time={500} show={!!answer}>
-                <span
-                  className={classNames("correct-or-incorrect", {
-                    correct: isCorrect === true,
-                    incorrect: isCorrect === false,
-                  })}
-                >
-                  {isCorrect ? "○" : "×"}
-                  {answer ? answer.name : ""}
-                </span>
-                <span style={{ display: "none" }}>{answerState?.count}</span>
-              </FadeOut>
-            )}
-          </p>
-        </div>
+      <Overlay>
+        <GameControl
+          point={point}
+          timeLimit={timeLimit}
+          question={
+            question
+              ? gameMode === GameMode.PrefectureToCapital
+                ? question.name
+                : question.capitalName
+              : ""
+          }
+          answerState={answerState}
+          onChangeMode={onChangeMode}
+          onChangeRural={onChangeRural}
+        />
+        <div className={"map-name-buttons"}>{buttonsToAnswer}</div>
+      </Overlay>
+      <MapView rural={rural} onClick={onClickMap} />
+    </div>
+  ) : (
+    <div className={"map-container"}>
+      {scene === Scene.Gaming && (
+        <GameControl
+          point={point}
+          timeLimit={timeLimit}
+          question={question?.name ?? ""}
+          answerState={answerState}
+          onChangeMode={onChangeMode}
+          onChangeRural={onChangeRural}
+        />
       )}
-      {rural === GamingRural.All && <JapanMap onClick={onClickMap} />}
-      {rural === GamingRural.Chiho && <ChihoMap onClick={onClickMap} />}
-      {rural === GamingRural.HokkaidoTohoku && <HokkaidoTohokuMap onClick={onClickMap} />}
-      {rural === GamingRural.Kanto && <KantoMap onClick={onClickMap} />}
-      {rural === GamingRural.Chubu && <ChubuMap onClick={onClickMap} />}
-      {rural === GamingRural.Kinki && <KinkiMap onClick={onClickMap} />}
-      {rural === GamingRural.ChugokuShikoku && <ChugokuShikokuMap onClick={onClickMap} />}
-      {rural === GamingRural.Kyusyu && <KyusyuMap onClick={onClickMap} />}
+      <MapView rural={rural} onClick={onClickMap} />
     </div>
   )
 }

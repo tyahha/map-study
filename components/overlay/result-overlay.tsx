@@ -1,6 +1,6 @@
 import { isRankIn } from "../../logic/ranking"
 import { RankSaver } from "../rank-saver"
-import { GamingRural } from "../../logic/mode"
+import { GameMode } from "../../logic/scene"
 import { Overlay } from "./overlay"
 
 export const ResultOverlay = ({
@@ -10,7 +10,7 @@ export const ResultOverlay = ({
   onReturnTitle,
 }: {
   point: number
-  rural: GamingRural
+  rural: GameMode
   onRestart: () => void
   onReturnTitle: () => void
 }) => {
