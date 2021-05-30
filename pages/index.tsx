@@ -1,21 +1,13 @@
-import {useCallback, useRef, useState} from "react"
-import {japanArea, JapanArea, JapanAreaId} from "../data/japan-area"
-import {FadeOut} from "../components/fade-out"
-import classNames from "classnames"
-import {playCorrectOrInCorrectSound} from "../data/se"
-import {CountDownTimer} from "../components/count-down-timer"
-import {GamingRural, gamingRuralText, getQuestions, Mode} from "../logic/mode"
-import {ChihoMap} from "../components/chiho-map"
-import {HokkaidoTohokuMap} from "../components/hokkaido-tohoku-map"
-import {KantoMap} from "../components/kanto-map"
-import {ChubuMap} from "../components/chubu-map"
-import {KinkiMap} from "../components/kinki-map"
-import {ChugokuShikokuMap} from "../components/chugoku-shikoku-map"
-import {KyusyuMap} from "../components/kyusyu-map"
-import {isRankIn} from "../logic/ranking"
-import {RankSaver} from "../components/rank-saver"
-import {JapanMap} from "../components/japan-map"
-import {RankingContent} from "../components/ranking-content"
+import { useCallback, useRef, useState } from "react"
+import { japanArea, JapanArea, JapanAreaId } from "../data/japan-area"
+import { playCorrectOrInCorrectSound } from "../data/se"
+import { GamingRural, getQuestions, Mode } from "../logic/mode"
+import { MapGame } from "../components/map-game"
+import { AnswerState } from "../logic/answer-state"
+import { TitleOverlay } from "../components/overlay/title-overlay"
+import { RankingSelectOverlay } from "../components/overlay/ranking-select-overlay"
+import { RankingOverlay } from "../components/overlay/ranking-overlay"
+import { ResultOverlay } from "../components/overlay/result-overlay"
 
 const timeLimit = 30 * 1000
 
@@ -23,11 +15,7 @@ export default function Index() {
   const [mode, setMode] = useState(Mode.Title)
   const [rural, setRural] = useState(GamingRural.All)
   const [point, setPoint] = useState(0)
-  const [answerState, setAnswerState] = useState<
-    undefined | { count: number; correct: boolean; answer: JapanArea }
-  >()
-  const answer = answerState?.answer
-  const isCorrect = answerState?.correct
+  const [answerState, setAnswerState] = useState<undefined | AnswerState>()
 
   const questions = useRef<JapanArea[]>([])
   const getNextQuestion = (): JapanArea => {
@@ -89,175 +77,43 @@ export default function Index() {
 
   return (
     <div className={"game-window"}>
-      {mode === Mode.Title && (
-        <>
-          <div className={"overlay"} />
-          <div className={"overlay-content"}>
-            <p className={"title"}>日本地図ゲーム</p>
-            <p>
-              <button onClick={() => startGame(GamingRural.All)}>
-                {gamingRuralText(GamingRural.All)}
-              </button>
-              <button onClick={() => startGame(GamingRural.Chiho)}>
-                {gamingRuralText(GamingRural.Chiho)}
-              </button>
-            </p>
-            <p>
-              <button onClick={() => startGame(GamingRural.HokkaidoTohoku)}>
-                {gamingRuralText(GamingRural.HokkaidoTohoku)}
-              </button>
-              <button onClick={() => startGame(GamingRural.Kanto)}>
-                {gamingRuralText(GamingRural.Kanto)}
-              </button>
-              <button onClick={() => startGame(GamingRural.Chubu)}>
-                {gamingRuralText(GamingRural.Chubu)}
-              </button>
-            </p>
-            <p>
-              <button onClick={() => startGame(GamingRural.Kinki)}>
-                {gamingRuralText(GamingRural.Kinki)}
-              </button>
-              <button onClick={() => startGame(GamingRural.ChugokuShikoku)}>
-                {gamingRuralText(GamingRural.ChugokuShikoku)}
-              </button>
-              <button onClick={() => startGame(GamingRural.Kyusyu)}>
-                {gamingRuralText(GamingRural.Kyusyu)}
-              </button>
-            </p>
-            <p>
-              <button onClick={() => setMode(Mode.RankingSelect)}>ランキング見る</button>
-            </p>
-          </div>
-        </>
-      )}
+      {mode === Mode.Title && <TitleOverlay onStartGame={startGame} onChangeMode={setMode} />}
       {mode === Mode.RankingSelect && (
-        <>
-          <div className={"overlay"} />
-          <div className={"overlay-content"}>
-            <p className={"title"}>ランキング選択</p>
-            <p>
-              <button onClick={() => showRanking(GamingRural.All)}>
-                {gamingRuralText(GamingRural.All)}
-              </button>
-              <button onClick={() => showRanking(GamingRural.Chiho)}>
-                {gamingRuralText(GamingRural.Chiho)}
-              </button>
-            </p>
-            <p>
-              <button onClick={() => showRanking(GamingRural.HokkaidoTohoku)}>
-                {gamingRuralText(GamingRural.HokkaidoTohoku)}
-              </button>
-              <button onClick={() => showRanking(GamingRural.Kanto)}>
-                {gamingRuralText(GamingRural.Kanto)}
-              </button>
-              <button onClick={() => showRanking(GamingRural.Chubu)}>
-                {gamingRuralText(GamingRural.Chubu)}
-              </button>
-            </p>
-            <p>
-              <button onClick={() => showRanking(GamingRural.Kinki)}>
-                {gamingRuralText(GamingRural.Kinki)}
-              </button>
-              <button onClick={() => showRanking(GamingRural.ChugokuShikoku)}>
-                {gamingRuralText(GamingRural.ChugokuShikoku)}
-              </button>
-              <button onClick={() => showRanking(GamingRural.Kyusyu)}>
-                {gamingRuralText(GamingRural.Kyusyu)}
-              </button>
-            </p>            <p>
-              <button onClick={() => setMode(Mode.Title)}>戻る</button>
-            </p>
-          </div>
-        </>
+        <RankingSelectOverlay onSelectRanking={showRanking} onChangeMode={setMode} />
       )}
-      { mode === Mode.RankingView &&
-        <>
-          <div className={"overlay"} />
-          <div className={"overlay-content"}>
-            <RankingContent rural={rural} />
-            <button onClick={() => {
-              setMode(Mode.RankingSelect)
-              setRural(GamingRural.All)
-            }}>戻る</button>
-            <button onClick={() => {
-              setMode(Mode.Title)
-              setRural(GamingRural.All)
-            }}>タイトルに戻る</button>
-          </div>
-        </>
-      }
+      {mode === Mode.RankingView && (
+        <RankingOverlay
+          rural={rural}
+          onChangeMode={(mode) => {
+            setMode(mode)
+            setRural(GamingRural.All)
+          }}
+        />
+      )}
       {mode === Mode.Result && (
-        <>
-          <div className={"overlay"} />
-          <div className={"overlay-content"}>
-            <p className={"title"}>今回の得点</p>
-            <p className={"result-point"}>{`${point} 点`}</p>
-            <p className={"title"}>{isRankIn(rural, point) ? "ランクイン" : "ランク外"}</p>
-            {isRankIn(rural, point) && <RankSaver rural={rural} point={point} />}
-            <button
-              onClick={() => {
-                startGame(rural)
-              }}
-            >
-              もう１回遊ぶ
-            </button>
-            <button
-              onClick={() => {
-                setMode(Mode.Title)
-                setRural(GamingRural.All)
-              }}
-            >
-              タイトルに戻る
-            </button>
-          </div>
-        </>
+        <ResultOverlay
+          point={point}
+          rural={rural}
+          onRestart={() => {
+            startGame(rural)
+          }}
+          onReturnTitle={() => {
+            setMode(Mode.Title)
+            setRural(GamingRural.All)
+          }}
+        />
       )}
-      <div className={"map-container"}>
-        {mode === Mode.Gaming && (
-          <div className={"game-state"}>
-            <CountDownTimer
-              time={timeLimit}
-              timeUp={() => {
-                setMode(Mode.Result)
-              }}
-            />
-            <p className={"point"}>{`点数：${point} 点`}</p>
-            <p className={"prefecture-question"}>問題：{question?.name}</p>
-            <p>
-              <button
-                onClick={() => {
-                  setMode(Mode.Title)
-                  setRural(GamingRural.All)
-                }}
-              >
-                中止
-              </button>
-              {answerState && (
-                <FadeOut time={500} show={!!answer}>
-                <span
-                  className={classNames("correct-or-incorrect", {
-                    correct: isCorrect === true,
-                    incorrect: isCorrect === false,
-                  })}
-                >
-                  {isCorrect ? "○" : "×"}
-                  {answer ? answer.name : ""}
-                </span>
-                  <span style={{ display: "none" }}>{answerState?.count}</span>
-                </FadeOut>
-              )}
-            </p>
-          </div>
-        )}
-        {rural === GamingRural.All && <JapanMap onClick={click} />}
-        {rural === GamingRural.Chiho && <ChihoMap onClick={click} />}
-        {rural === GamingRural.HokkaidoTohoku && <HokkaidoTohokuMap onClick={click} />}
-        {rural === GamingRural.Kanto && <KantoMap onClick={click} />}
-        {rural === GamingRural.Chubu && <ChubuMap onClick={click} />}
-        {rural === GamingRural.Kinki && <KinkiMap onClick={click} />}
-        {rural === GamingRural.ChugokuShikoku && <ChugokuShikokuMap onClick={click} />}
-        {rural === GamingRural.Kyusyu && <KyusyuMap onClick={click} />}
-      </div>
+      <MapGame
+        mode={mode}
+        point={point}
+        rural={rural}
+        timeLimit={timeLimit}
+        question={question}
+        answerState={answerState}
+        onChangeMode={setMode}
+        onChangeRural={setRural}
+        onClickMap={click}
+      />
     </div>
   )
 }
