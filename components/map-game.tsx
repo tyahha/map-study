@@ -10,7 +10,7 @@ import { ChubuMap } from "./chubu-map"
 import { KinkiMap } from "./kinki-map"
 import { ChugokuShikokuMap } from "./chugoku-shikoku-map"
 import { KyusyuMap } from "./kyusyu-map"
-import {JapanArea, JapanAreaId} from "../data/japan-area"
+import { JapanArea, JapanAreaId } from "../data/japan-area"
 import { AnswerState } from "../logic/answer-state"
 
 export const MapGame = ({

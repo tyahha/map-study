@@ -1,4 +1,4 @@
-import {areaFillColor, MapProps, oceanColor, useAreaClick} from "../logic/logic"
+import { areaFillColor, MapProps, oceanColor, useAreaClick } from "../logic/logic"
 
 export const KinkiMap = ({ onClick }: MapProps) => {
   const click = useAreaClick(onClick)

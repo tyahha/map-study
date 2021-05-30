@@ -1,6 +1,6 @@
 import { GamingRural } from "../logic/mode"
 import { useState } from "react"
-import {getPrevRankName, setRanking} from "../logic/ranking"
+import { getPrevRankName, setRanking } from "../logic/ranking"
 
 export const RankSaver = ({ rural, point }: { rural: GamingRural; point: number }) => {
   const [name, setName] = useState(getPrevRankName() ?? "")

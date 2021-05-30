@@ -11,7 +11,7 @@ export const RankingContent = ({ rural }: { rural: GamingRural }) => {
     <>
       <p className={"title"}>ランキング</p>
       {ranking.map((rank, i) => {
-        return <p>{`${i + 1}位　${rank.point}点　${rank.name}`}</p>
+        return <p>{`${i + 1}位 ${rank.point}点 ${rank.name}`}</p>
       })}
     </>
   )

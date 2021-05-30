@@ -1,9 +1,9 @@
-import {useEffect, useRef, useState, FC} from "react"
+import { useEffect, useRef, useState, FC } from "react"
 
 export const FadeOut: FC<{
   time: number
   show: boolean
-}> = ({show, time, children}) => {
+}> = ({ show, time, children }) => {
   const [isShow, setShow] = useState(false)
   const timer = useRef<number | undefined>(undefined)
   useEffect(() => {
@@ -16,9 +16,5 @@ export const FadeOut: FC<{
     }
   }, [children])
 
-  return isShow ? (
-    <>
-      {children}
-    </>
-  ) : <></>
+  return isShow ? <>{children}</> : <></>
 }

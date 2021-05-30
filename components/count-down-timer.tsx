@@ -1,6 +1,6 @@
-import {useEffect, useRef, useState} from "react"
+import { useEffect, useRef, useState } from "react"
 
-export const CountDownTimer = ({time, timeUp}: {time: number, timeUp: () => void}) => {
+export const CountDownTimer = ({ time, timeUp }: { time: number; timeUp: () => void }) => {
   const [prevTime, setPrevTime] = useState(new Date().getTime())
   const [rest, setReset] = useState(time)
   const timer = useRef(0)
