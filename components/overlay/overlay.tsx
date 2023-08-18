@@ -1,6 +1,8 @@
-import React from "react"
+import React, { ReactNode } from "react"
 
-export const Overlay: React.FC = (props) => {
+export const Overlay: React.FC<{
+  children: ReactNode
+}> = (props) => {
   return (
     <>
       <div className={"overlay"} />

@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react"
 import { japanArea, JapanArea, JapanAreaId } from "../data/japan-area"
 import { playCorrectOrInCorrectSound } from "../data/se"
-import {GameMode, getQuestions, Scene} from "../logic/scene"
+import { GameMode, getQuestions, Scene } from "../logic/scene"
 import { MapGame } from "../components/map-game"
 import { AnswerState } from "../logic/answer-state"
 import { TitleOverlay } from "../components/overlay/title-overlay"

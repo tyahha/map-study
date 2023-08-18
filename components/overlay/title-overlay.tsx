@@ -12,9 +12,7 @@ export const TitleOverlay = ({
     <Overlay>
       <p className={"title"}>日本地図ゲーム</p>
       <p>
-        <button onClick={() => onStartGame(GameMode.All)}>
-          {getGameModeText(GameMode.All)}
-        </button>
+        <button onClick={() => onStartGame(GameMode.All)}>{getGameModeText(GameMode.All)}</button>
         <button onClick={() => onStartGame(GameMode.Chiho)}>
           {getGameModeText(GameMode.Chiho)}
         </button>
